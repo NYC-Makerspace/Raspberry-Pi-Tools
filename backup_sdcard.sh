@@ -13,6 +13,7 @@ local img="${2:-/tmp/`date +%Y%m%d`-sd.img}"
 # sudo sync
 
 sudo -s -- <<EOF
+umount $device* || true
 dcfldd if=$device of=${img}.large
 sync
 ./PiShrink/pishrink.sh ${img}.large $img
