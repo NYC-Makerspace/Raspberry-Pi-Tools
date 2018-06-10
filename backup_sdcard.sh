@@ -2,7 +2,6 @@
 
 set -e
 set -u
-set -x
 
 function main {
 local device="${1}"
@@ -15,7 +14,7 @@ local img="${2:-/tmp/`date +%Y%m%d`-sd.img}"
 sudo -s -- <<EOF
 umount $device* || true
 dcfldd if=$device of=${img}.large
-sync
+sync ${img}.large
 ./PiShrink/pishrink.sh ${img}.large $img
 EOF
 rm -f ${img}.large
@@ -28,4 +27,5 @@ if [[ "${1:--h}" = "-h" ]] ; then
   echo "usage:  $0  /dev/device-file  [output-file.img]"
   exit 1
 fi
+set -x
 main $@
